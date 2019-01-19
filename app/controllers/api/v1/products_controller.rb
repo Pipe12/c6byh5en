@@ -24,6 +24,22 @@ module Api
         end
       end
 
+      def update
+        product = Product.find(params[:id])
+
+        if product.update(product_params)
+          render json: {
+            status: "Success",
+            data: product
+          }, status: :ok
+        else
+          render json: {
+            status: "Not updated product",
+            data: product.errors
+          }, status: :unprocessable_entity
+        end
+      end
+
       private
         def product_params
           params.require(:product).permit(:name, :price)
